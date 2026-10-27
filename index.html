@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xtyope - Best Mobile & PC Games Portal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --dark-bg: #0b0b16;
+            --main-bg: #050508;
+            --card-bg: #0d0d1a;
+            --card-hover: #14142b;
+            --accent: #9c4dff;
+            --accent-light: #b56dff;
+            --neon-blue: #00eaff;
+            --text-color: #e4e4e4;
+            --heading-color: #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            padding-top: 50px;
+            font-family: 'Roboto', sans-serif;
+            background: var(--main-bg); 
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(156, 77, 255, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 234, 255, 0.1) 0px, transparent 50%);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            flex: 1;
+            width: 100%;
+        }
+
+        #topBanner {
+            width: 100%;
+            padding: 10px 0;
+            background: rgba(11, 11, 22, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 9000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        #topBanner a {
+            color: #aaa;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+        #topBanner a:hover { color: var(--accent-light); }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 0;
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            header { flex-direction: row; justify-content: space-between; }
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #c084fc, #00eaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .search-box { width: 100%; max-width: 400px; position: relative; }
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            outline: none;
+            transition: 0.3s;
+        }
+        .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(156,77,255,0.2); }
+        .search-box i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #777; }
+
+        .hero-banner {
+            background: linear-gradient(to bottom, rgba(11, 11, 22, 0.7), rgba(11, 11, 22, 0.9)), url('https://i.postimg.cc/C1KqDrFn/LXlAPV.jpg');
+            background-size: cover; background-position: center;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(156, 77, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .hero-banner { padding: 60px 40px; text-align: left; }
+        }
+
+        .hero-banner h1 { font-size: 28px; color: var(--heading-color); margin-bottom: 10px; }
+        .hero-banner p { font-size: 14px; color: #d1d1d1; max-width: 600px; line-height: 1.6; }
+
+        .section-header { margin: 10px 0 20px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+        
+        .games-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 12px; 
+        }
+
+        @media (min-width: 768px) {
+            .games-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+
+        .game-card:hover { transform: translateY(-5px); border-color: var(--accent); background: var(--card-hover); }
+
+        .game-card img { width: 100%; height: 120px; object-fit: cover; transition: 0.3s; }
+        .game-card:hover img { transform: scale(1.03); }
+        @media (min-width: 768px) { .game-card img { height: 150px; } }
+
+        .game-info { padding: 12px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .game-info h3 { font-size: 14px; color: #fff; margin-bottom: 5px; font-weight: 600; }
+        
+        .platforms { font-size: 10px; color: #aaa; margin-bottom: 12px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .platforms span { display: flex; align-items: center; gap: 3px; }
+        .platforms i { color: var(--accent-light); }
+
+        .cta-button {
+            background: linear-gradient(45deg, #9c4dff, #6f1cff);
+            padding: 10px 0;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(156,77,255,0.3);
+        }
+        .cta-button:hover { opacity: 0.9; transform: scale(1.02); }
+
+        /* --- GAME DETAILS MODAL --- */
+        .modal-overlay {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            z-index: 10001; justify-content: center; align-items: center;
+            padding: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-content {
+            background: var(--card-bg);
+            width: 100%; max-width: 380px;
+            padding: 25px; border-radius: 20px;
+            text-align: center; border: 1px solid var(--accent);
+            position: relative;
+            box-shadow: 0 10px 40px rgba(156,77,255,0.2);
+            animation: scaleUp 0.3s ease;
+        }
+
+        @keyframes scaleUp { from { transform: scale(0.9); } to { transform: scale(1); } }
+
+        .modal-img { width: 80px; height: 80px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--accent); object-fit: cover; }
+        .modal-title { color: #fff; margin-bottom: 10px; font-size: 20px; }
+        .modal-desc { font-size: 13px; color: #bbb; margin-bottom: 15px; line-height: 1.5; }
+        
+        .modal-devices {
+            background: rgba(255,255,255,0.03); padding: 8px; border-radius: 10px;
+            margin-bottom: 20px; font-size: 12px; color: #ddd;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .modal-cta {
+            background: linear-gradient(45deg, #00eaff, #008cff);
+            color: #fff; padding: 12px; border-radius: 30px;
+            display: block; text-decoration: none; font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,234,255,0.3);
+            transition: 0.2s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+        }
+        .modal-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,234,255,0.4); }
+
+        .close-modal { position: absolute; top: 15px; right: 18px; font-size: 22px; color: #777; cursor: pointer; transition: 0.2s; }
+        .close-modal:hover { color: #fff; }
+
+        /* --- REDIRECT LOADER STATE --- */
+        .loader-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top: 4px solid #00eaff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 15px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader-text { font-size: 14px; color: #ddd; font-weight: 500; }
+        .loader-subtext { font-size: 11px; color: #888; margin-top: 5px; }
+
+        /* --- CONTENT LOCKER IFRAME POPUP MODAL --- */
+        .locker-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .locker-box {
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+            height: 85vh;
+            max-height: 680px;
+            background: var(--card-bg);
+            border: 1px solid var(--neon-blue);
+            border-radius: 20px;
+            box-shadow: 0 0 35px rgba(0, 234, 255, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .locker-header {
+            background: rgba(11, 11, 22, 0.95);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .locker-header-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--neon-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-locker-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .close-locker-btn:hover {
+            background: #ff4d4d;
+            transform: scale(1.1);
+        }
+
+        .locker-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            flex: 1;
+        }
+
+        /* No results state */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #777;
+            display: none;
+            font-size: 14px;
+        }
+
+        footer { padding: 30px 20px; text-align: center; background: #07070f; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.03); }
+        footer p { color: #555; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <nav id="topBanner">
+        <a href="#contact">Contact</a>
+        <a href="#faq">FAQ</a>
+        <a href="#privacy">Privacy</a>
+    </nav>
+
+    <div class="container">
+        <header>
+            <div class="logo">xtyope</div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search games or apps...">
+            </div>
+        </header>
+
+        <section class="hero-banner">
+            <h1>Premium Game Mods & Tools</h1>
+            <p>The best exclusive offers and secure utility tools for your favorite mobile and console games, all in one protected hub.</p>
+        </section>
+
+        <section class="games">
+            <div class="section-header">
+                <h2><i class="fas fa-fire" style="color: #ff4d4d;"></i> Trending Now</h2>
+            </div>
+
+            <div class="games-grid" id="gamesGrid">
+                
+                <!-- Game Card 1 -->
+                <div class="game-card" data-name="carx street">
+                    <img src="https://i.postimg.cc/65hvYsPs/images.jpg" alt="CarX Street">
+                    <div class="game-info">
+                        <h3>CarX Street</h3>
+                        <div class="platforms"><span><i class="fab fa-android"></i> Android</span> <span><i class="fab fa-apple"></i> iOS</span></div>
+                        <button class="cta-button" onclick="openModal('CarX Street', 'https://i.postimg.cc/65hvYsPs/images.jpg', 'Get unlimited cash and unlock all premium cars in CarX Street.', 'iOS, Android, iPad')">Get game</button>
+                    </div>
+                </div>
+
+                <!-- Game Card 2 -->
+                <div class="game-card" data-name="tomodachi life">
+                    <img src="https://i.postimg.cc/gJRpPC1p/5994451268115565882-121.jpg" alt="Tomodachi Life">
+                    <div class="game-info">
+                        <h3>Tomodachi Life</h3>
+                        <div class="platforms"><span><i class="fab fa-android"></i> Android</span> <span><i class="fab fa-apple"></i> iOS</span></div>
+                        <button class="cta-button" onclick="openModal('Tomodachi Life', 'https://i.postimg.cc/gJRpPC1p/5994451268115565882-121.jpg', 'No Need NINTENDO To Try Tomodachi Life on your mobile device.', 'iOS, Android, iPad')">Get game</button>
+                    </div>
+                </div>
+
+                <!-- Game Card 3 -->
+                <div class="game-card" data-name="noomiclone">
+                    <img src="https://i.postimg.cc/90CD9NGN/images-(22).jpg" alt="noomiclone">
+                    <div class="game-info">
+                        <h3>noomiclone</h3>
+                        <div class="platforms"><span><i class="fab fa-android"></i> Android</span> <span><i class="fab fa-apple"></i> iOS</span></div>
+                        <button class="cta-button" onclick="openModal('noomiclone', 'https://i.postimg.cc/90CD9NGN/images-(22).jpg', 'Experience noomiclone on mobile devices.', 'iOS, Android, iPad')">Get game</button>
+                    </div>
+                </div>
+
+                <!-- Game Card 4 -->
+                <div class="game-card" data-name="mecha chameleon">
+                    <img src="https://i.postimg.cc/P5jxmY0Z/images-(2).jpg" alt="Mecha Chameleon">
+                    <div class="game-info">
+                        <h3>Mecha Chameleon</h3>
+                        <div class="platforms"><span><i class="fab fa-android"></i> Android</span> <span><i class="fab fa-apple"></i> iOS</span></div>
+                        <button class="cta-button" onclick="openModal('Mecha Chameleon', 'https://i.postimg.cc/P5jxmY0Z/images-(2).jpg', 'Get Mecha Chameleon game package for free.', 'iOS, Android, iPad')">Get Game</button>
+                    </div>
+                </div>
+
+                <!-- Game Card 5 -->
+                <div class="game-card" data-name="counterflame">
+                    <img src="https://i.postimg.cc/g03R6hft/images-(23).jpg" alt="counterflame">
+                    <div class="game-info">
+                        <h3>counterflame</h3>
+                        <div class="platforms"><span><i class="fab fa-android"></i> Android</span> <span><i class="fab fa-apple"></i> iOS</span></div>
+                        <button class="cta-button" onclick="openModal('counterflame', 'https://i.postimg.cc/g03R6hft/images-(23).jpg', 'Unlock Counterflame features for free.', 'iOS, Android, iPad')">Get GAME</button>
+                    </div>
+                </div>
+
+                <!-- Game Card 6 -->
+                <div class="game-card" data-name="teach my sister how to drive">
+                    <img src="https://i.postimg.cc/c1c065js/images-(25).jpg" alt="teach my sister how to drive">
+                    <div class="game-info">
+                        <h3>teach my sister how to drive</h3>
+                        <div class="platforms"><span><i class="fab fa-android"></i> Android</span> <span><i class="fab fa-apple"></i> iOS</span></div>
+                        <button class="cta-button" onclick="openModal('teach my sister how to drive', 'https://i.postimg.cc/c1c065js/images-(25).jpg', 'Get instant mobile access.', 'Android, iOS')">Get GAME</button>
+                    </div>
+                </div>
+
+                <!-- Game Card 7 -->
+                <div class="game-card" data-name="moon sweepers">
+                    <img src="https://i.postimg.cc/vZrzdfTP/images-(26).jpg" alt="moon sweepers">
+                    <div class="game-info">
+                        <h3>moon sweepers</h3>
+                        <div class="platforms"><span><i class="fab fa-android"></i> Android</span> <span><i class="fab fa-apple"></i> iOS</span></div>
+                        <button class="cta-button" onclick="openModal('moon sweepers', 'https://i.postimg.cc/vZrzdfTP/images-(26).jpg', 'Unlock moon sweepers game files.', 'Android, iOS')">Get GAME</button>
+                    </div>
+                </div>
+
+                <!-- Game Card 8 -->
+                <div class="game-card" data-name="happy wheels tetris">
+                    <img src="https://i.postimg.cc/W11MxCR1/images-(27).jpg" alt="happy wheels tetris">
+                    <div class="game-info">
+                        <h3>happy wheels tetris</h3>
+                        <div class="platforms"><span><i class="fab fa-android"></i> Android</span> <span><i class="fab fa-apple"></i> iOS</span></div>
+                        <button class="cta-button" onclick="openModal('happy wheels tetris', 'https://i.postimg.cc/W11MxCR1/images-(27).jpg', 'Try early access and get secure codes before your friends.', 'iOS, Android, iPad')">Get GAME</button>
+                    </div>
+                </div>
+
+                <!-- No Results Indicator -->
+                <div id="noResults" class="no-results">
+                    <i class="fas fa-ghost fa-2x" style="margin-bottom: 10px;"></i>
+                    <p>No games found matching your search.</p>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Details Modal Popup -->
+    <div id="gameModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            
+            <!-- Standard Modal Body -->
+            <div id="modalNormalBody">
+                <img id="modalImg" src="" alt="" class="modal-img">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <p id="modalDesc" class="modal-desc"></p>
+                <div class="modal-devices">
+                    <i class="fas fa-mobile-alt"></i> <strong>Devices:</strong> <span id="modalDevices"></span>
+                </div>
+                <button id="modalActionBtn" class="modal-cta" onclick="startRedirect()">Proceed to Security Check <i class="fas fa-shield-alt"></i></button>
+            </div>
+
+            <!-- Loading Spinner State (Liquid Effect) -->
+            <div id="modalLoaderBody" class="loader-container">
+                <div class="spinner"></div>
+                <div class="loader-text">Verifying Secure Connection...</div>
+                <div class="loader-subtext">Checking anti-bot protection & loading verification locker.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Content Locker Popup Overlay (IFRAME) -->
+    <div id="lockerModal" class="locker-overlay">
+        <div class="locker-box">
+            <div class="locker-header">
+                <span class="locker-header-title"><i class="fas fa-lock" style="color:#00eaff;"></i> Security Verification</span>
+                <button class="close-locker-btn" onclick="closeLocker()">&times;</button>
+            </div>
+            <iframe id="lockerIframe" class="locker-iframe" src="" title="Content Locker"></iframe>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Xtyope. All rights reserved. Secure Verification Protected.</p>
+    </footer>
+
+    <script>
+        // ==========================================
+        // 🔗 GLOBAL CONTENT LOCKER LINK (USED IN IFRAME POPUP)
+        // ==========================================
+        const GLOBAL_LOCKER_LINK = "https://apptrck.net/cl/i/82l1g6"; 
+
+        // Open Game Details Modal
+        function openModal(title, imgUrl, description, devices) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalImg').src = imgUrl;
+            document.getElementById('modalDesc').innerText = description;
+            document.getElementById('modalDevices').innerText = devices;
+
+            // Reset modal body states
+            document.getElementById('modalNormalBody').style.display = 'block';
+            document.getElementById('modalLoaderBody').style.display = 'none';
+
+            document.getElementById('gameModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Show verification loader then trigger Content Locker Popup (Overlay)
+        function startRedirect() {
+            // Hide normal body and show the spinner
+            document.getElementById('modalNormalBody').style.display = 'none';
+            document.getElementById('modalLoaderBody').style.display = 'flex';
+
+            // After 1.2s delay, close game modal & open locker popup directly on top of the page
+            setTimeout(function() {
+                closeModal();
+                openLockerPopup();
+            }, 1200);
+        }
+
+        // Function to open Content Locker inside Popup Iframe
+        function openLockerPopup() {
+            const lockerModal = document.getElementById('lockerModal');
+            const lockerIframe = document.getElementById('lockerIframe');
+            
+            lockerIframe.src = GLOBAL_LOCKER_LINK;
+            lockerModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Function to close Content Locker Popup
+        function closeLocker() {
+            const lockerModal = document.getElementById('lockerModal');
+            const lockerIframe = document.getElementById('lockerIframe');
+            
+            lockerIframe.src = '';
+            lockerModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeModal() { 
+            document.getElementById('gameModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto'; 
+        }
+
+        window.onclick = function(event) { 
+            if (event.target == document.getElementById('gameModal')) {
+                closeModal();
+            } 
+            if (event.target == document.getElementById('lockerModal')) {
+                closeLocker();
+            }
+        }
+
+        // Search Bar Filtering Logic
+        const searchInput = document.getElementById('searchInput');
+        const gameCards = document.querySelectorAll('.game-card');
+        const noResults = document.getElementById('noResults');
+
+        searchInput.addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase().trim();
+            let matches = 0;
+
+            gameCards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                if (name.includes(term)) {
+                    card.style.display = 'flex';
+                    matches++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (matches === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
